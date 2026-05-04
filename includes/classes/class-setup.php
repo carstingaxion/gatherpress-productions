@@ -53,12 +53,12 @@ class Setup {
 		// Register production shadow taxonomy onto events.
 		add_action( 'init', array( $this, 'register_post_tax_relations' ), 12 );
 
-		add_action( 'pre_get_posts', function ( \WP_Query $query ) {
-			if ( $query->is_main_query() && $query->is_post_type_archive( self::POST_TYPE_NAME ) ) {
-				// error_log( var_export( $query->query_vars, true ) );
-				error_log( var_export( $query, true ) );
-			}
-		}, 100 );
+		// add_action( 'pre_get_posts', function ( \WP_Query $query ) {
+		// 	if ( $query->is_main_query() && $query->is_post_type_archive( self::POST_TYPE_NAME ) ) {
+		// 		// error_log( var_export( $query->query_vars, true ) );
+		// 		error_log( var_export( $query, true ) );
+		// 	}
+		// }, 100 );
 	}
 
 	/**
