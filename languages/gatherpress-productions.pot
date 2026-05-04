@@ -1,0 +1,165 @@
+# Copyright (C) 2026 carstenbach
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: GatherPress Productions 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gatherpress-productions\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-04T00:50:01+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: gatherpress-productions\n"
+
+#. Plugin Name of the plugin
+msgid "GatherPress Productions"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/carstingaxion/gatherpress-productions"
+msgstr ""
+
+#. Author of the plugin
+msgid "carstenbach"
+msgstr ""
+
+#: includes/classes/class-setup.php:87
+#: includes/classes/class-setup.php:108
+msgid "Productions"
+msgstr ""
+
+#: includes/classes/class-setup.php:88
+msgid "Production"
+msgstr ""
+
+#: includes/classes/class-setup.php:89
+msgid "Add New"
+msgstr ""
+
+#: includes/classes/class-setup.php:90
+msgid "Add New Production"
+msgstr ""
+
+#: includes/classes/class-setup.php:91
+msgid "Edit Production"
+msgstr ""
+
+#: includes/classes/class-setup.php:92
+msgid "New Production"
+msgstr ""
+
+#: includes/classes/class-setup.php:93
+msgid "View Production"
+msgstr ""
+
+#: includes/classes/class-setup.php:94
+msgid "View Productions"
+msgstr ""
+
+#: includes/classes/class-setup.php:95
+msgid "Search Productions"
+msgstr ""
+
+#: includes/classes/class-setup.php:96
+msgid "No productions found"
+msgstr ""
+
+#: includes/classes/class-setup.php:97
+msgid "No productions found in Trash"
+msgstr ""
+
+#: includes/classes/class-setup.php:98
+msgid "Parent Production:"
+msgstr ""
+
+#: includes/classes/class-setup.php:99
+msgid "All Productions"
+msgstr ""
+
+#: includes/classes/class-setup.php:100
+msgid "Production Archives"
+msgstr ""
+
+#: includes/classes/class-setup.php:101
+msgid "Production Attributes"
+msgstr ""
+
+#: includes/classes/class-setup.php:102
+msgid "Insert into production"
+msgstr ""
+
+#: includes/classes/class-setup.php:103
+msgid "Uploaded to this production"
+msgstr ""
+
+#: includes/classes/class-setup.php:104
+msgid "Production Poster"
+msgstr ""
+
+#: includes/classes/class-setup.php:105
+msgid "Set production poster"
+msgstr ""
+
+#: includes/classes/class-setup.php:106
+msgid "Remove production poster"
+msgstr ""
+
+#: includes/classes/class-setup.php:107
+msgid "Use as production poster"
+msgstr ""
+
+#: includes/classes/class-setup.php:109
+msgid "Filter productions list"
+msgstr ""
+
+#: includes/classes/class-setup.php:110
+msgid "Filter productions by date"
+msgstr ""
+
+#: includes/classes/class-setup.php:111
+msgid "Productions list navigation"
+msgstr ""
+
+#: includes/classes/class-setup.php:112
+msgid "Productions list"
+msgstr ""
+
+#: includes/classes/class-setup.php:113
+msgid "Production published."
+msgstr ""
+
+#: includes/classes/class-setup.php:114
+msgid "Production published privately."
+msgstr ""
+
+#: includes/classes/class-setup.php:115
+msgid "Production reverted to draft."
+msgstr ""
+
+#: includes/classes/class-setup.php:116
+msgid "Production moved to Trash."
+msgstr ""
+
+#: includes/classes/class-setup.php:117
+msgid "Production scheduled."
+msgstr ""
+
+#: includes/classes/class-setup.php:118
+msgid "Production updated."
+msgstr ""
+
+#: includes/classes/class-setup.php:119
+msgid "Production Link"
+msgstr ""
+
+#: includes/classes/class-setup.php:120
+msgid "A link to a production."
+msgstr ""
+
+#: includes/classes/class-setup.php:183
+#: src/index.js:12
+msgid "Premiere"
+msgstr ""
