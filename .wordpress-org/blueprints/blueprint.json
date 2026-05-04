@@ -58,6 +58,18 @@
         "resource": "url",
         "url": "https://raw.githubusercontent.com/GatherPress/gatherpress-demo-data/main/GatherPress-demo-data-0.33.0.xml"
       }
-    }
+    },
+		{
+			"step": "writeFile",
+			"path": "/tmp/demo-data.php",
+			"data": {
+				"resource": "url",
+				"url": "https://raw.githubusercontent.com/carstingaxion/gatherpress-productions/main/.wordpress-org/blueprints/demo-data.php"
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require '/tmp/demo-data.php';"
+		}
   ]
 }
