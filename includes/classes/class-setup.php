@@ -61,7 +61,13 @@ class Setup {
 		// 	}
 		// }, 100 );
 
+		// Add settings sub-page.
 		add_action( 'gatherpress_sub_pages', array( $this, 'setup_sub_page' ) );
+
+		// Setup starter patterns.
+		// add_filter( 'gatherpress_event_starter_patterns', array( $this, 'setup_starter_patterns' ), 10, 2 );
+		add_action( 'init', array( $this, 'register_starter_patterns_natively' ) );
+
 	}
 
 	/**
@@ -275,5 +281,59 @@ class Setup {
 		);
 
 		return $sub_pages;
+	}
+
+	/**
+	 * Set up starter patterns FOR ALL post types using the 'gatherpress-event-date' post_type support.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @uses 'gatherpress_event_starter_patterns' filter
+	 * @see  https://github.com/GatherPress/gatherpress/blob/develop/docs/developer/hooks/gatherpress_event_starter_patterns.md
+	 *
+	 * @param  array $patterns
+	 * @param  array $post_types
+	 *
+	 * @return array
+	 */
+	public function setup_starter_patterns( array $patterns, array $post_types ): array {
+		$patterns[] = array(
+			'name'        => 'gatherpress-productions/starter',
+			'title'       => __( 'Productions Starter', 'gatherpress-productions' ),
+			'description' => __( 'A starter pattern for productions.', 'gatherpress-productions' ),
+			'content'     => '<!-- wp:paragraph --><p>' . esc_html__( 'This is a starter pattern for productions. Customize it to fit your needs!', 'gatherpress-productions' ) . '</p><!-- /wp:paragraph -->',
+		);
+
+		return $patterns;
+    }
+
+	/**
+	 * Register the starter pattern natively using WordPress's block pattern API.
+	 * This is an alternative to using the 'gatherpress_event_starter_patterns' filter and allows the pattern to be available only to selected post types.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	public function register_starter_patterns_natively() : void {
+
+		$pattern = array(
+			'name'        => 'gatherpress-productions/starter',
+			'title'       => __( 'Productions Starter', 'gatherpress-productions' ),
+			'description' => __( 'A starter pattern for productions.', 'gatherpress-productions' ),
+			'post_types'  => array( self::POST_TYPE_NAME ),
+			'content'     => '<!-- wp:paragraph --><p>' . esc_html__( 'This is a starter pattern for productions. Customize it to fit your needs!', 'gatherpress-productions' ) . '</p><!-- /wp:paragraph -->',
+		);
+		\register_block_pattern(
+			$pattern['name'],
+			array(
+				'title'       => $pattern['title'] ?? '',
+				'description' => $pattern['description'] ?? '',
+				'content'     => $pattern['content'] ?? '',
+				'blockTypes'  => array( 'core/post-content' ),
+				'postTypes'   => array( self::POST_TYPE_NAME ),
+				'source'      => 'plugin',
+			)
+		);
 	}
 }
