@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace GatherPress_Productions;
 
 use GatherPress\Core;
+use GatherPress\Core\Settings;
 
 /**
  * Main plugin class using Singleton pattern.
@@ -59,6 +60,8 @@ class Setup {
 		// 		error_log( var_export( $query, true ) );
 		// 	}
 		// }, 100 );
+
+		add_action( 'gatherpress_sub_pages', array( $this, 'setup_sub_page' ) );
 	}
 
 	/**
@@ -84,6 +87,8 @@ class Setup {
 	 * @return void
 	 */
 	public function register_post_type(): void {
+		$settings     = Settings::get_instance();
+		$rewrite_slug = $settings->get( 'productions_url' );
 
 		$labels = array(
 			'name'                     => __( 'Productions', 'gatherpress-productions' ),
@@ -142,7 +147,7 @@ class Setup {
 				'description'  => '',
 
 				'rewrite'      => [
-					'slug'       => self::POST_TYPE_SLUG,
+					'slug'       => $rewrite_slug,
 					'with_front' => false,      // Defaults to true.
 					// 'feeds'   => false,      // Defaults to 'has_archive'.
 					// 'pages'   => false,      // Defaults to true.
@@ -221,5 +226,54 @@ class Setup {
 			'gatherpress-productions-editor',
 			'gatherpress-productions'
 		);
+	}
+
+
+	/**
+	 * Adds a sub-page for "Productions" to the existing sub-pages array.
+	 *
+	 * This function modifies the provided sub-pages array to include a new sub-page
+	 * for GatherPress Productions with specified details such as name, priority, and sections.
+	 *
+	 * @param array $sub_pages An associative array of existing sub-pages.
+	 * @return array Modified array of sub-pages including the new GatherPress Productions sub-page.
+	 */
+	public function setup_sub_page( array $sub_pages ): array {
+		$sub_pages['productions'] = array(
+			'name'     => __( 'Productions', 'gatherpress-productions' ),
+			'priority' => 10,
+			'sections' => array(
+				'urls' => array(
+					'name'        => __( 'Permalinks', 'gatherpress' ),
+					'description' => __( 'Change permalink bases.', 'gatherpress' ),
+					'options'     => array(
+						'productions_url' => array(
+							'labels' => array(
+								'name' => __( 'Productions', 'gatherpress-productions' ),
+							),
+							'field'  => array(
+								'type'    => 'text',
+								'rewrite' => true,
+								'options' => array(
+									'label'   => __( 'Permalink base of Productions.', 'gatherpress-productions' ),
+									// 'default' => Setup::get_instance()->get_localized_post_type_slug(),
+									'default' => self::POST_TYPE_SLUG,
+								),
+								'preview' => array(
+									'template' => 'url-rewrite-preview',
+									'suffix'   => _x(
+										'sample-production',
+										'URL permalink structure example for productions',
+										'gatherpress-productions'
+									),
+								),
+							),
+						),
+					),
+				),
+			),
+		);
+
+		return $sub_pages;
 	}
 }
