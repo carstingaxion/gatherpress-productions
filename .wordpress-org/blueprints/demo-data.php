@@ -7,7 +7,7 @@
  */
 
 
-require_once __DIR__ . '/../wordpress/wp-load.php';
+require_once '/wordpress/wp-load.php';
 
 // Production 1
 $post_id = wp_insert_post(
