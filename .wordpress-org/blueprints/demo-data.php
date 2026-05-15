@@ -22,11 +22,13 @@ if ( is_wp_error( $post_id ) ) {
 	error_log( 'Error creating production: ' . $post_id->get_error_message() );
 } else {
 	$event = new \GatherPress\Core\Event( $post_id );
-	$event->save_datetimes( array(
-		'datetime_start' => '2025-11-10 19:00:00',
-		'datetime_end'   => '2025-11-10 21:30:00',
-		'timezone'       => 'Europe/Berlin',
-	) );
+	$event->save_datetimes(
+		array(
+			'datetime_start' => '2025-11-10 19:00:00',
+			'datetime_end'   => '2025-11-10 21:30:00',
+			'timezone'       => 'Europe/Berlin',
+		) 
+	);
 }
 
 // Production 2
@@ -42,11 +44,13 @@ if ( is_wp_error( $post_id ) ) {
 	error_log( 'Error creating production: ' . $post_id->get_error_message() );
 } else {
 	$event = new \GatherPress\Core\Event( $post_id );
-	$event->save_datetimes( array(
-		'datetime_start' => '2025-12-05 18:30:00',
-		'datetime_end'   => '2025-12-05 21:00:00',
-		'timezone'       => 'Europe/Berlin',
-	) );
+	$event->save_datetimes(
+		array(
+			'datetime_start' => '2025-12-05 18:30:00',
+			'datetime_end'   => '2025-12-05 21:00:00',
+			'timezone'       => 'Europe/Berlin',
+		) 
+	);
 }
 
 // Production 3
@@ -62,11 +66,13 @@ if ( is_wp_error( $post_id ) ) {
 	error_log( 'Error creating production: ' . $post_id->get_error_message() );
 } else {
 	$event = new \GatherPress\Core\Event( $post_id );
-	$event->save_datetimes( array(
-		'datetime_start' => '2027-01-15 20:00:00',
-		'datetime_end'   => '2027-01-15 22:15:00',
-		'timezone'       => 'Europe/Berlin',
-	) );
+	$event->save_datetimes(
+		array(
+			'datetime_start' => '2027-01-15 20:00:00',
+			'datetime_end'   => '2027-01-15 22:15:00',
+			'timezone'       => 'Europe/Berlin',
+		) 
+	);
 }
 
 // Production 4
@@ -82,11 +88,13 @@ if ( is_wp_error( $post_id ) ) {
 	error_log( 'Error creating production: ' . $post_id->get_error_message() );
 } else {
 	$event = new \GatherPress\Core\Event( $post_id );
-	$event->save_datetimes( array(
-		'datetime_start' => '2026-02-20 19:30:00',
-		'datetime_end'   => '2026-02-20 21:00:00',
-		'timezone'       => 'Europe/Berlin',
-	) );
+	$event->save_datetimes(
+		array(
+			'datetime_start' => '2026-02-20 19:30:00',
+			'datetime_end'   => '2026-02-20 21:00:00',
+			'timezone'       => 'Europe/Berlin',
+		) 
+	);
 }
 
 // Production 5
@@ -102,11 +110,13 @@ if ( is_wp_error( $post_id ) ) {
 	error_log( 'Error creating production: ' . $post_id->get_error_message() );
 } else {
 	$event = new \GatherPress\Core\Event( $post_id );
-	$event->save_datetimes( array(
-		'datetime_start' => '2027-03-12 18:00:00',
-		'datetime_end'   => '2027-03-12 20:30:00',
-		'timezone'       => 'Europe/Berlin',
-	) );
+	$event->save_datetimes(
+		array(
+			'datetime_start' => '2027-03-12 18:00:00',
+			'datetime_end'   => '2027-03-12 20:30:00',
+			'timezone'       => 'Europe/Berlin',
+		) 
+	);
 }
 
 flush_rewrite_rules();
