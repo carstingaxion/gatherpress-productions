@@ -54,6 +54,7 @@ add_filter( 'gatherpress_autoloader', 'gatherpress_productions_autoloader' );
 function gatherpress_productions_setup(): void {
 	if ( defined( 'GATHERPRESS_VERSION' ) ) {
 		\GatherPress_Productions\Setup::get_instance();
+		\GatherPress_Productions\Taxonomies::get_instance();
 
 
 
