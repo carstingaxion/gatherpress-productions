@@ -32,7 +32,7 @@
 			"step": "installPlugin",
 			"pluginData": {
 				"resource": "url",
-				"url": "https://raw.githubusercontent.com/carstingaxion/gatherpress-productions/refs/heads/main/.wordpress-org/blueprints/gatherpress.zip"
+				"url": "https://github.com/GatherPress/gatherpress/releases/download/0.34.0-alpha.2/gatherpress.0.34.0-alpha.2.zip"
 			},
       "options": {
           "activate": true
@@ -56,7 +56,7 @@
       "step": "importWxr",
       "file": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/GatherPress/gatherpress-demo-data/main/GatherPress-demo-data-0.33.0.xml"
+        "url": "https://raw.githubusercontent.com/GatherPress/gatherpress-demo-data/main/GatherPress-demo-data-0.34.0.xml"
       }
     },
 		{
