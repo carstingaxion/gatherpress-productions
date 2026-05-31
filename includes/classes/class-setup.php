@@ -22,7 +22,6 @@ class Setup {
 	use Core\Traits\Singleton;
 
 	const POST_TYPE_NAME = 'gatherpress_play'; // 'gatherpress_production' is too long, it allows up to 20 char
-	const POST_TYPE_SLUG = 'production'; // @TODO Replace with a option-based value for better customization, similar to the one used for the 'event' post type in GatherPress.
 
 	const TAXONOMY_NAME = '_gatherpress_play';
 
@@ -87,6 +86,31 @@ class Setup {
 			false,
 			'gatherpress-productions/languages'
 		);
+	}
+
+	/**
+	 * Returns the post type slug localized for the site language and sanitized as URL part.
+	 *
+	 * Do not use this directly, use get( 'venues_url' ) instead.
+	 *
+	 * This method switches to the sites default language and gets the translation of 'venues' for the loaded locale.
+	 * After that, the method sanitizes the string to be safely used within an URL,
+	 * by removing accents, replacing special characters and replacing whitespace with dashes.
+	 *
+	 * @since 0.34.0
+	 *
+	 * @return string
+	 */
+	protected function get_localized_post_type_slug(): string {
+		$switched_locale = switch_to_locale( get_locale() );
+		$slug            = __( 'Production', 'gatherpress-productions' );
+		$slug            = sanitize_title( $slug );
+
+		if ( $switched_locale ) {
+			restore_previous_locale();
+		}
+
+		return $slug;
 	}
 
 	/**
@@ -266,8 +290,7 @@ class Setup {
 								'rewrite' => true,
 								'options' => array(
 									'label'   => __( 'Permalink base of Productions.', 'gatherpress-productions' ),
-									// 'default' => Setup::get_instance()->get_localized_post_type_slug(),
-									'default' => self::POST_TYPE_SLUG,
+									'default' => $this->get_localized_post_type_slug(),
 								),
 								'preview' => array(
 									'template' => 'url-rewrite-preview',
