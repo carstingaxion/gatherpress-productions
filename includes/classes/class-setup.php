@@ -69,6 +69,9 @@ class Setup {
 		// Setup starter patterns.
 		// add_filter( 'gatherpress_event_starter_patterns', array( $this, 'setup_starter_patterns' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_starter_patterns_natively' ) );
+
+		// Add block variations for the venue block when used within the context of productions.
+		add_filter( 'get_block_type_variations', array( $this, 'add_block_type_variations' ), 10, 2 );
 	}
 
 	/**
@@ -336,5 +339,32 @@ class Setup {
 				'source'      => 'plugin',
 			)
 		);
+	}
+
+	/**
+	 * Add block variations for the venue block when used within the context of productions.
+	 *
+	 * @param  array          $variations
+	 * @param  \WP_Block_Type $block_type
+	 *
+	 * @return array All registered block variations, including the new one for the venue block in productions context.
+	 */
+	public function add_block_type_variations( array $variations, \WP_Block_Type $block_type ): array {
+
+		if ( 'gatherpress/venue' === $block_type->name ) {
+			$variations[] = array(
+				'name'       => 'gatherpress/productions-details',
+				'title'      => __( 'Productions Details', 'gatherpress-productions' ),
+				'description' => __( 'Show details of the related production.', 'gatherpress-productions' ),
+				'isActive'   => array(
+					'sourcePostType',
+				),
+				'attributes' => array(
+					'sourcePostType' => 'gatherpress_play',
+				)
+			);
+		}
+
+		return $variations;
 	}
 }
