@@ -264,20 +264,21 @@ class Setup {
 
 
 	/**
-	 * Adds a sub-page for "Productions" to the existing sub-pages array.
+	 * Adds a sub-page for "Theater" to the existing sub-pages array.
 	 *
 	 * This function modifies the provided sub-pages array to include a new sub-page
-	 * for GatherPress Productions with specified details such as name, priority, and sections.
+	 * for GatherPress Theater with specified details such as name, priority, and sections.
 	 *
 	 * @param array $sub_pages An associative array of existing sub-pages.
-	 * @return array Modified array of sub-pages including the new GatherPress Productions sub-page.
+	 * @return array Modified array of sub-pages including the new GatherPress Theater sub-page.
 	 */
 	public function setup_sub_page( array $sub_pages ): array {
-		$sub_pages['productions'] = array(
-			'name'     => __( 'Productions', 'gatherpress-productions' ),
+		$current_sub_pages = $sub_pages['theater']['sections'] ?? array();
+		$sub_pages['theater'] = array(
+			'name'     => __( 'Theater', 'gatherpress-seasons' ),
 			'priority' => 10,
-			'sections' => array(
-				'urls' => array(
+			'sections' => array_merge( $current_sub_pages, array(
+				'production_urls' => array(
 					'name'        => __( 'Permalinks', 'gatherpress' ),
 					'description' => __( 'Change permalink bases.', 'gatherpress' ),
 					'options'     => array(
@@ -304,7 +305,7 @@ class Setup {
 						),
 					),
 				),
-			),
+			) ),
 		);
 
 		return $sub_pages;
