@@ -114,6 +114,102 @@ class Setup {
 	}
 
 	/**
+	 * Build taxonomy labels from a post type's labels.
+	 *
+	 * Reuses semantically equivalent post type labels whenever possible and
+	 * generates taxonomy-specific labels as fallbacks.
+	 *
+	 * @param string $post_type Post type name.
+	 * @return array
+	 */
+	protected function get_shadow_taxonomy_labels( string $post_type ): array {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( ! $post_type_object instanceof \WP_Post_Type ) {
+			return array(
+				'name'          => $post_type,
+				'singular_name' => $post_type,
+			);
+		}
+
+		$pt = $post_type_object->labels;
+
+		/*
+		* Taxonomy label => equivalent post type label.
+		*/
+		$equivalents = array(
+			'name'                  => 'name',
+			'singular_name'         => 'singular_name',
+			'menu_name'             => 'menu_name',
+			'all_items'             => 'all_items',
+			'search_items'          => 'search_items',
+			'view_item'             => 'view_item',
+			'not_found'             => 'not_found',
+			'item_link'             => 'item_link',
+			'item_link_description' => 'item_link_description',
+		);
+
+		$labels = array();
+
+		foreach ( $equivalents as $taxonomy_label => $post_type_label ) {
+			if ( ! empty( $pt->{$post_type_label} ) ) {
+				$labels[ $taxonomy_label ] = $pt->{$post_type_label};
+			}
+		}
+
+		$name     = $labels['name'] ?? $pt->name ?? $post_type;
+		$singular = $labels['singular_name'] ?? $pt->singular_name ?? $post_type;
+
+		/*
+		* Taxonomy-only labels.
+		*/
+		$labels += array(
+			'popular_items'              => sprintf(
+				__( 'Popular %s', 'textdomain' ),
+				$name
+			),
+			'edit_item'                  => sprintf(
+				__( 'Edit %s', 'textdomain' ),
+				$singular
+			),
+			'update_item'                => sprintf(
+				__( 'Update %s', 'textdomain' ),
+				$singular
+			),
+			'add_new_item'               => sprintf(
+				__( 'Add New %s', 'textdomain' ),
+				$singular
+			),
+			'new_item_name'              => sprintf(
+				__( 'New %s Name', 'textdomain' ),
+				$singular
+			),
+			'separate_items_with_commas' => sprintf(
+				__( 'Separate %s with commas', 'textdomain' ),
+				lcfirst( $name )
+			),
+			'add_or_remove_items'        => sprintf(
+				__( 'Add or remove %s', 'textdomain' ),
+				lcfirst( $name )
+			),
+			'choose_from_most_used'      => sprintf(
+				__( 'Choose from the most used %s', 'textdomain' ),
+				lcfirst( $name )
+			),
+			'parent_item'                => sprintf(
+				__( 'Parent %s', 'textdomain' ),
+				$singular
+			),
+			'parent_item_colon'          => sprintf(
+				__( 'Parent %s:', 'textdomain' ),
+				$singular
+			),
+		);
+
+		return $labels;
+	}
+
+	/**
 	 * Register the custom post type for productions.
 	 *
 	 * @since 0.1.0
@@ -121,6 +217,17 @@ class Setup {
 	 * @return void
 	 */
 	public function register_post_type(): void {
+		add_filter( 'gatherpress_shadow_taxonomy_args', function( $args, $post_type ) {
+			if ( self::POST_TYPE_NAME === $post_type ) {
+				$args['labels']             = $this->get_shadow_taxonomy_labels( $post_type );
+				$args['show_in_quick_edit'] = true;
+				$args['show_ui']            = true; // Needed to show the taxonomy metabox in the editor.
+				$args['show_in_menu']       = false; // Correction after show_ui.
+				// $args['publicly_queryable'] = true;
+			}
+			return $args;
+		}, 10, 2 );
+
 		$settings     = Settings::get_instance();
 		$rewrite_slug = $settings->get( 'productions_url' );
 
