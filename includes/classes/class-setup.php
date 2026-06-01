@@ -210,6 +210,30 @@ class Setup {
 	}
 
 	/**
+	 * Filter to register the shadow taxonomy with custom arguments.
+	 *
+	 * This method is hooked to the 'gatherpress_shadow_taxonomy_args' filter, which is triggered when registering a shadow taxonomy for a post type.
+	 * The method checks if the post type matches the one used for productions, and if so, it modifies the taxonomy arguments to set custom labels, show in quick edit, show in UI, and default term.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param array  $args The original taxonomy arguments.
+	 * @param string $post_type The post type for which the shadow taxonomy is being registered.
+	 *
+	 * @return array The modified taxonomy arguments for the production shadow taxonomy.
+	 */
+	public function register_taxonomy_args( array $args, string $post_type ) {
+		if ( self::POST_TYPE_NAME === $post_type ) {
+			$args['labels']             = $this->get_shadow_taxonomy_labels( $post_type );
+			$args['show_in_quick_edit'] = true;
+			$args['show_ui']            = true; // Needed to show the taxonomy metabox in the editor.
+			$args['show_in_menu']       = false; // Correction after show_ui.
+			// $args['publicly_queryable'] = true;
+		}
+		return $args;
+	}
+
+	/**
 	 * Register the custom post type for productions.
 	 *
 	 * @since 0.1.0
@@ -217,16 +241,7 @@ class Setup {
 	 * @return void
 	 */
 	public function register_post_type(): void {
-		add_filter( 'gatherpress_shadow_taxonomy_args', function( $args, $post_type ) {
-			if ( self::POST_TYPE_NAME === $post_type ) {
-				$args['labels']             = $this->get_shadow_taxonomy_labels( $post_type );
-				$args['show_in_quick_edit'] = true;
-				$args['show_ui']            = true; // Needed to show the taxonomy metabox in the editor.
-				$args['show_in_menu']       = false; // Correction after show_ui.
-				// $args['publicly_queryable'] = true;
-			}
-			return $args;
-		}, 10, 2 );
+		add_filter( 'gatherpress_shadow_taxonomy_args', array( $this, 'register_taxonomy_args' ), 10, 2 );
 
 		$settings     = Settings::get_instance();
 		$rewrite_slug = $settings->get( 'productions_url' );
@@ -373,7 +388,6 @@ class Setup {
 			'gatherpress-productions'
 		);
 	}
-
 
 	/**
 	 * Adds a sub-page for "Theater" to the existing sub-pages array.
