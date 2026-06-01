@@ -42,7 +42,9 @@ class Taxonomies {
 	protected function setup_hooks() {
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 		add_action( 'init', array( $this, 'add_default_terms' ) );
-		add_action( 'wp_insert_post', array( $this, 'set_default_status' ), 10, 3 );
+
+		// Hook onto "Event ended" action to update the production-status term of the production.
+		add_action( 'gatherpress_event_ended', array( $this, 'update_production_status_on_premiere_end' ) );
 	}
 
 	/**
@@ -71,6 +73,10 @@ class Taxonomies {
 			'show_admin_column' => true,
 			'query_var'    => true,
 			'rewrite'      => false,
+			'default_term' => array(
+				'name' => 'Pre-Production',
+				'slug' => 'pre-production',
+			),
 		);
 
 		register_taxonomy(
@@ -86,10 +92,10 @@ class Taxonomies {
 	public function add_default_terms() {
 
 		$terms = array(
-			'Pre-Production' => 'pre-production',
-			'In Rehearsal'   => 'in-rehearsal',
-			'Running'        => 'running',
-			'Closed'         => 'closed',
+			_x('Pre-Production','Default term for production status', 'gatherpress-productions' ) => _x( 'pre-production', 'Default term for production status', 'gatherpress-productions' ),
+			_x('In Rehearsal','Default term for production status', 'gatherpress-productions' ) => _x( 'in-rehearsal', 'Default term for production status', 'gatherpress-productions' ),
+			_x('Running','Default term for production status', 'gatherpress-productions' ) => _x( 'running', 'Default term for production status', 'gatherpress-productions' ),
+			_x('Closed','Default term for production status', 'gatherpress-productions' ) => _x( 'closed', 'Default term for production status', 'gatherpress-productions' ),
 		);
 
 		foreach ( $terms as $name => $slug ) {
@@ -106,32 +112,32 @@ class Taxonomies {
 	}
 
 	/**
-	 * 3. Set Default Status on New Event
+	 * Update the production-status term of the production, when its premiere ends.
+	 *
+	 * This method is hooked to the 'gatherpress_event_ended' action, which is triggered when an event-supporting post ends.
+	 * This action is not part of gatherpress core, it's triggered by the "GatherPress Cache Invalidation Hooks" plugin.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param int $event_id The ID of the event-supporting post that ended.
+	 *                      Can be an event, a season, a play or anything else.
+	 *
+	 * @return void
 	 */
-	public function set_default_status( int $post_id, \WP_Post $post, bool $update ) {
-
-		// Only target gatherpress_event post type
-		if ( $post->post_type !== Setup::POST_TYPE_NAME ) {
+	public function update_production_status_on_premiere_end( int $event_id ): void {
+		$pt_setup  = Setup::get_instance();
+		$post_type = get_post_type( $event_id );
+		if ( $pt_setup::POST_TYPE_NAME !== $post_type ) {
 			return;
 		}
 
-		// Only on initial creation
-		if ( $update ) {
-			return;
-		}
+		// Update the production-status term of the production, when its premiere ends.
+		wp_set_object_terms(
+			$event_id,
+			_x( 'running', 'Default term for production status', 'gatherpress-productions' ),
+			self::TAXONOMY_NAME,
+			false
+		);
 
-		// Skip autosaves/revisions
-		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
-			return;
-		}
-
-		// Check if terms already assigned
-		$terms = wp_get_object_terms( $post_id, self::TAXONOMY_NAME );
-		if ( ! empty( $terms ) ) {
-			return;
-		}
-
-		// Assign default: Pre-Production
-		wp_set_object_terms( $post_id, 'pre-production', self::TAXONOMY_NAME );
 	}
 }
