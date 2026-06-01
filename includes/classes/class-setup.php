@@ -347,6 +347,11 @@ class Setup {
 			return;
 		}
 
+		// Guard to only enqueue on the production edit screen.
+		if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
+			return;
+		}
+
 		/** @var mixed $asset */
 		$asset = include $asset_file;
 
