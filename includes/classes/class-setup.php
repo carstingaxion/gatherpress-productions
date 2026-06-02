@@ -70,7 +70,7 @@ class Setup {
 		add_action( 'init', array( $this, 'register_starter_patterns_natively' ) );
 
 		// Add block variations for the venue block when used within the context of productions.
-		add_filter( 'get_block_type_variations', array( $this, 'add_block_type_variations' ), 10, 2 );
+		// add_filter( 'get_block_type_variations', array( $this, 'add_block_type_variations' ), 10, 2 );
 	}
 
 	/**
@@ -363,9 +363,10 @@ class Setup {
 		}
 
 		// Guard to only enqueue on the production edit screen.
-		if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
-			return;
-		}
+		// @TODO: re-enable separation, after block-variation succ. tested using JS.
+		// if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
+			// return;
+		// }
 
 		/** @var mixed $asset */
 		$asset = include $asset_file;
