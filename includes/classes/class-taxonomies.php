@@ -65,15 +65,15 @@ class Taxonomies {
 		);
 
 		$args = array(
-			'labels'       => $labels,
-			'public'       => false,
+			'labels'             => $labels,
+			'public'             => false,
 			'publicly_queryable' => true,
-			'show_ui'      => true,
-			'show_in_rest' => true,
-			'show_admin_column' => true,
-			'query_var'    => true,
-			'rewrite'      => false,
-			'default_term' => array(
+			'show_ui'            => true,
+			'show_in_rest'       => true,
+			'show_admin_column'  => true,
+			'query_var'          => true,
+			'rewrite'            => false,
+			'default_term'       => array(
 				'name' => 'Pre-Production',
 				'slug' => 'pre-production',
 			),
@@ -92,10 +92,10 @@ class Taxonomies {
 	public function add_default_terms() {
 
 		$terms = array(
-			_x('Pre-Production','Default term for production status', 'gatherpress-productions' ) => _x( 'pre-production', 'Default term for production status', 'gatherpress-productions' ),
-			_x('In Rehearsal','Default term for production status', 'gatherpress-productions' ) => _x( 'in-rehearsal', 'Default term for production status', 'gatherpress-productions' ),
-			_x('Running','Default term for production status', 'gatherpress-productions' ) => _x( 'running', 'Default term for production status', 'gatherpress-productions' ),
-			_x('Closed','Default term for production status', 'gatherpress-productions' ) => _x( 'closed', 'Default term for production status', 'gatherpress-productions' ),
+			_x( 'Pre-Production', 'Default term for production status', 'gatherpress-productions' ) => _x( 'pre-production', 'Default term for production status', 'gatherpress-productions' ),
+			_x( 'In Rehearsal', 'Default term for production status', 'gatherpress-productions' ) => _x( 'in-rehearsal', 'Default term for production status', 'gatherpress-productions' ),
+			_x( 'Running', 'Default term for production status', 'gatherpress-productions' ) => _x( 'running', 'Default term for production status', 'gatherpress-productions' ),
+			_x( 'Closed', 'Default term for production status', 'gatherpress-productions' ) => _x( 'closed', 'Default term for production status', 'gatherpress-productions' ),
 		);
 
 		foreach ( $terms as $name => $slug ) {
@@ -138,6 +138,5 @@ class Taxonomies {
 			self::TAXONOMY_NAME,
 			false
 		);
-
 	}
 }

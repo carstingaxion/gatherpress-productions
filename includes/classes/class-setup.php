@@ -48,6 +48,7 @@ class Setup {
 		// Re-label Admin columns & Editor sidebar panel.
 		add_filter( 'gatherpress_event_datetime_label', array( $this, 'change_event_datetime_label' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_variation_assets' ) );
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		// Register productions post type.
@@ -55,22 +56,12 @@ class Setup {
 		// Register production shadow taxonomy onto events.
 		add_action( 'init', array( $this, 'register_post_tax_relations' ), 12 );
 
-		// add_action( 'pre_get_posts', function ( \WP_Query $query ) {
-		// if ( $query->is_main_query() && $query->is_post_type_archive( self::POST_TYPE_NAME ) ) {
-		// error_log( var_export( $query->query_vars, true ) );
-		// error_log( var_export( $query, true ) );
-		// }
-		// }, 100 );
-
 		// Add settings sub-page.
 		add_action( 'gatherpress_sub_pages', array( $this, 'setup_sub_page' ) );
 
 		// Setup starter patterns.
 		// add_filter( 'gatherpress_event_starter_patterns', array( $this, 'setup_starter_patterns' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_starter_patterns_natively' ) );
-
-		// Add block variations for the venue block when used within the context of productions.
-		// add_filter( 'get_block_type_variations', array( $this, 'add_block_type_variations' ), 10, 2 );
 	}
 
 	/**
@@ -165,43 +156,53 @@ class Setup {
 		*/
 		$labels += array(
 			'popular_items'              => sprintf(
-				__( 'Popular %s', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Popular %s', 'gatherpress-productions' ),
 				$name
 			),
 			'edit_item'                  => sprintf(
-				__( 'Edit %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Edit %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'update_item'                => sprintf(
-				__( 'Update %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Update %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'add_new_item'               => sprintf(
-				__( 'Add New %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Add New %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'new_item_name'              => sprintf(
-				__( 'New %s Name', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'New %s Name', 'gatherpress-productions' ),
 				$singular
 			),
 			'separate_items_with_commas' => sprintf(
-				__( 'Separate %s with commas', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Separate %s with commas', 'gatherpress-productions' ),
 				lcfirst( $name )
 			),
 			'add_or_remove_items'        => sprintf(
-				__( 'Add or remove %s', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Add or remove %s', 'gatherpress-productions' ),
 				lcfirst( $name )
 			),
 			'choose_from_most_used'      => sprintf(
-				__( 'Choose from the most used %s', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Choose from the most used %s', 'gatherpress-productions' ),
 				lcfirst( $name )
 			),
 			'parent_item'                => sprintf(
-				__( 'Parent %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Parent %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'parent_item_colon'          => sprintf(
-				__( 'Parent %s:', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Parent %s:', 'gatherpress-productions' ),
 				$singular
 			),
 		);
@@ -228,7 +229,6 @@ class Setup {
 			$args['show_in_quick_edit'] = true;
 			$args['show_ui']            = true; // Needed to show the taxonomy metabox in the editor.
 			$args['show_in_menu']       = false; // Correction after show_ui.
-			// $args['publicly_queryable'] = true;
 		}
 		return $args;
 	}
@@ -301,6 +301,7 @@ class Setup {
 				'show_in_rest' => true, // This in combination with  'supports' => array('editor') enables the Gutenberg editor.
 				'hierarchical' => true, // (Note from Subsites plugin: Important for rewriting to work with 'parent' PT.)
 				'description'  => '',
+				'menu_icon'   => 'dashicons-art',
 
 				'rewrite'      => [
 					'slug'       => $rewrite_slug,
@@ -356,17 +357,16 @@ class Setup {
 	 * @return void
 	 */
 	public function enqueue_editor_assets(): void {
-		$asset_file = GATHERPRESS_PRODUCTIONS_CORE_PATH . '/build/index.asset.php';
 
-		if ( ! file_exists( $asset_file ) ) {
+		// Guard to only enqueue on the production edit screen.
+		if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
 			return;
 		}
 
-		// Guard to only enqueue on the production edit screen.
-		// @TODO: re-enable separation, after block-variation succ. tested using JS.
-		// if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
-			// return;
-		// }
+		$asset_file = GATHERPRESS_PRODUCTIONS_CORE_PATH . '/build/index.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
 
 		/** @var mixed $asset */
 		$asset = include $asset_file;
@@ -391,6 +391,42 @@ class Setup {
 	}
 
 	/**
+	 * Enqueues the editor script that registers label filter for the sidebar.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_variation_assets(): void {
+
+		$asset_file = GATHERPRESS_PRODUCTIONS_CORE_PATH . '/build/variation.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		/** @var mixed $asset */
+		$asset = include $asset_file;
+
+		if ( ! is_array( $asset ) || ! isset( $asset['dependencies'], $asset['version'] ) ) {
+			return;
+		}
+
+		/** @var array{dependencies: string[], version: string} $asset */
+		wp_enqueue_script(
+			'gatherpress-productions-variation',
+			plugins_url( 'build/variation.js', dirname( __DIR__, 1 ) ),
+			$asset['dependencies'],
+			(string) $asset['version'],
+			true
+		);
+
+		wp_set_script_translations(
+			'gatherpress-productions-variation',
+			'gatherpress-productions'
+		);
+	}
+
+	/**
 	 * Adds a sub-page for "Theater" to the existing sub-pages array.
 	 *
 	 * This function modifies the provided sub-pages array to include a new sub-page
@@ -400,39 +436,42 @@ class Setup {
 	 * @return array Modified array of sub-pages including the new GatherPress Theater sub-page.
 	 */
 	public function setup_sub_page( array $sub_pages ): array {
-		$current_sub_pages = $sub_pages['theater']['sections'] ?? array();
+		$current_sub_pages    = $sub_pages['theater']['sections'] ?? array();
 		$sub_pages['theater'] = array(
-			'name'     => __( 'Theater', 'gatherpress-seasons' ),
+			'name'     => __( 'Theater', 'gatherpress-productions' ),
 			'priority' => 10,
-			'sections' => array_merge( $current_sub_pages, array(
-				'production_urls' => array(
-					'name'        => __( 'Permalinks', 'gatherpress' ),
-					'description' => __( 'Change permalink bases.', 'gatherpress' ),
-					'options'     => array(
-						'productions_url' => array(
-							'labels' => array(
-								'name' => __( 'Productions', 'gatherpress-productions' ),
-							),
-							'field'  => array(
-								'type'    => 'text',
-								'rewrite' => true,
-								'options' => array(
-									'label'   => __( 'Permalink base of Productions.', 'gatherpress-productions' ),
-									'default' => $this->get_localized_post_type_slug(),
+			'sections' => array_merge(
+				$current_sub_pages,
+				array(
+					'production_urls' => array(
+						'name'        => __( 'Permalinks', 'gatherpress' ),
+						'description' => __( 'Change permalink bases.', 'gatherpress' ),
+						'options'     => array(
+							'productions_url' => array(
+								'labels' => array(
+									'name' => __( 'Productions', 'gatherpress-productions' ),
 								),
-								'preview' => array(
-									'template' => 'url-rewrite-preview',
-									'suffix'   => _x(
-										'sample-production',
-										'URL permalink structure example for productions',
-										'gatherpress-productions'
+								'field'  => array(
+									'type'    => 'text',
+									'rewrite' => true,
+									'options' => array(
+										'label'   => __( 'Permalink base of Productions.', 'gatherpress-productions' ),
+										'default' => $this->get_localized_post_type_slug(),
+									),
+									'preview' => array(
+										'template' => 'url-rewrite-preview',
+										'suffix'   => _x(
+											'sample-production',
+											'URL permalink structure example for productions',
+											'gatherpress-productions'
+										),
 									),
 								),
 							),
 						),
 					),
-				),
-			) ),
+				)
+			),
 		);
 
 		return $sub_pages;
@@ -446,8 +485,8 @@ class Setup {
 	 * @uses 'gatherpress_event_starter_patterns' filter
 	 * @see  https://github.com/GatherPress/gatherpress/blob/develop/docs/developer/hooks/gatherpress_event_starter_patterns.md
 	 *
-	 * @param  array $patterns
-	 * @param  array $post_types
+	 * @param  array $patterns   Pattern definitions loaded from the filesystem or registered natively.
+	 * @param  array $post_types Post type slugs declaring gatherpress-event-date.
 	 *
 	 * @return array
 	 */
@@ -490,32 +529,5 @@ class Setup {
 				'source'      => 'plugin',
 			)
 		);
-	}
-
-	/**
-	 * Add block variations for the venue block when used within the context of productions.
-	 *
-	 * @param  array          $variations
-	 * @param  \WP_Block_Type $block_type
-	 *
-	 * @return array All registered block variations, including the new one for the venue block in productions context.
-	 */
-	public function add_block_type_variations( array $variations, \WP_Block_Type $block_type ): array {
-
-		if ( 'gatherpress/venue' === $block_type->name ) {
-			$variations[] = array(
-				'name'       => 'gatherpress/productions-details',
-				'title'      => __( 'Productions Details', 'gatherpress-productions' ),
-				'description' => __( 'Show details of the related production.', 'gatherpress-productions' ),
-				'isActive'   => array(
-					'sourcePostType',
-				),
-				'attributes' => array(
-					'sourcePostType' => 'gatherpress_play',
-				)
-			);
-		}
-
-		return $variations;
 	}
 }
