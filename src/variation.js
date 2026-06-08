@@ -13,6 +13,7 @@ registerBlockVariation( 'gatherpress/venue', {
 	name: 'gatherpress-productions/details',
 	title: __( 'Production', 'gatherpress' ),
 	description: __( 'Provides production context.', 'gatherpress' ),
+	icon: 'art',
 	category: 'gatherpress',
 	isActive: [ 'sourcePostType' ],
 	attributes: {
