@@ -48,6 +48,7 @@ class Setup {
 		// Re-label Admin columns & Editor sidebar panel.
 		add_filter( 'gatherpress_event_datetime_label', array( $this, 'change_event_datetime_label' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_variation_assets' ) );
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		// Register productions post type.
@@ -69,8 +70,7 @@ class Setup {
 		// add_filter( 'gatherpress_event_starter_patterns', array( $this, 'setup_starter_patterns' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_starter_patterns_natively' ) );
 
-		// Add block variations for the venue block when used within the context of productions.
-		// add_filter( 'get_block_type_variations', array( $this, 'add_block_type_variations' ), 10, 2 );
+
 	}
 
 	/**
@@ -356,17 +356,16 @@ class Setup {
 	 * @return void
 	 */
 	public function enqueue_editor_assets(): void {
-		$asset_file = GATHERPRESS_PRODUCTIONS_CORE_PATH . '/build/index.asset.php';
 
-		if ( ! file_exists( $asset_file ) ) {
+		// Guard to only enqueue on the production edit screen.
+		if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
 			return;
 		}
 
-		// Guard to only enqueue on the production edit screen.
-		// @TODO: re-enable separation, after block-variation succ. tested using JS.
-		// if ( self::POST_TYPE_NAME !== get_current_screen()->post_type ) {
-			// return;
-		// }
+		$asset_file = GATHERPRESS_PRODUCTIONS_CORE_PATH . '/build/index.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
 
 		/** @var mixed $asset */
 		$asset = include $asset_file;
@@ -386,6 +385,42 @@ class Setup {
 
 		wp_set_script_translations(
 			'gatherpress-productions-editor',
+			'gatherpress-productions'
+		);
+	}
+
+	/**
+	 * Enqueues the editor script that registers label filter for the sidebar.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_variation_assets(): void {
+
+		$asset_file = GATHERPRESS_PRODUCTIONS_CORE_PATH . '/build/variation.asset.php';
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		/** @var mixed $asset */
+		$asset = include $asset_file;
+
+		if ( ! is_array( $asset ) || ! isset( $asset['dependencies'], $asset['version'] ) ) {
+			return;
+		}
+
+		/** @var array{dependencies: string[], version: string} $asset */
+		wp_enqueue_script(
+			'gatherpress-productions-variation',
+			plugins_url( 'build/variation.js', dirname( __DIR__, 1 ) ),
+			$asset['dependencies'],
+			(string) $asset['version'],
+			true
+		);
+
+		wp_set_script_translations(
+			'gatherpress-productions-variation',
 			'gatherpress-productions'
 		);
 	}
@@ -490,32 +525,5 @@ class Setup {
 				'source'      => 'plugin',
 			)
 		);
-	}
-
-	/**
-	 * Add block variations for the venue block when used within the context of productions.
-	 *
-	 * @param  array          $variations
-	 * @param  \WP_Block_Type $block_type
-	 *
-	 * @return array All registered block variations, including the new one for the venue block in productions context.
-	 */
-	public function add_block_type_variations( array $variations, \WP_Block_Type $block_type ): array {
-
-		if ( 'gatherpress/venue' === $block_type->name ) {
-			$variations[] = array(
-				'name'       => 'gatherpress/productions-details',
-				'title'      => __( 'Productions Details', 'gatherpress-productions' ),
-				'description' => __( 'Show details of the related production.', 'gatherpress-productions' ),
-				'isActive'   => array(
-					'sourcePostType',
-				),
-				'attributes' => array(
-					'sourcePostType' => 'gatherpress_play',
-				)
-			);
-		}
-
-		return $variations;
 	}
 }
