@@ -56,21 +56,12 @@ class Setup {
 		// Register production shadow taxonomy onto events.
 		add_action( 'init', array( $this, 'register_post_tax_relations' ), 12 );
 
-		// add_action( 'pre_get_posts', function ( \WP_Query $query ) {
-		// if ( $query->is_main_query() && $query->is_post_type_archive( self::POST_TYPE_NAME ) ) {
-		// error_log( var_export( $query->query_vars, true ) );
-		// error_log( var_export( $query, true ) );
-		// }
-		// }, 100 );
-
 		// Add settings sub-page.
 		add_action( 'gatherpress_sub_pages', array( $this, 'setup_sub_page' ) );
 
 		// Setup starter patterns.
 		// add_filter( 'gatherpress_event_starter_patterns', array( $this, 'setup_starter_patterns' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_starter_patterns_natively' ) );
-
-
 	}
 
 	/**
@@ -165,43 +156,53 @@ class Setup {
 		*/
 		$labels += array(
 			'popular_items'              => sprintf(
-				__( 'Popular %s', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Popular %s', 'gatherpress-productions' ),
 				$name
 			),
 			'edit_item'                  => sprintf(
-				__( 'Edit %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Edit %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'update_item'                => sprintf(
-				__( 'Update %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Update %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'add_new_item'               => sprintf(
-				__( 'Add New %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Add New %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'new_item_name'              => sprintf(
-				__( 'New %s Name', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'New %s Name', 'gatherpress-productions' ),
 				$singular
 			),
 			'separate_items_with_commas' => sprintf(
-				__( 'Separate %s with commas', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Separate %s with commas', 'gatherpress-productions' ),
 				lcfirst( $name )
 			),
 			'add_or_remove_items'        => sprintf(
-				__( 'Add or remove %s', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Add or remove %s', 'gatherpress-productions' ),
 				lcfirst( $name )
 			),
 			'choose_from_most_used'      => sprintf(
-				__( 'Choose from the most used %s', 'textdomain' ),
+				/* translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions". */
+				__( 'Choose from the most used %s', 'gatherpress-productions' ),
 				lcfirst( $name )
 			),
 			'parent_item'                => sprintf(
-				__( 'Parent %s', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Parent %s', 'gatherpress-productions' ),
 				$singular
 			),
 			'parent_item_colon'          => sprintf(
-				__( 'Parent %s:', 'textdomain' ),
+				/* translators: %s is replaced with the singular name of the taxonomy, e.g. "Production". */
+				__( 'Parent %s:', 'gatherpress-productions' ),
 				$singular
 			),
 		);
@@ -228,7 +229,6 @@ class Setup {
 			$args['show_in_quick_edit'] = true;
 			$args['show_ui']            = true; // Needed to show the taxonomy metabox in the editor.
 			$args['show_in_menu']       = false; // Correction after show_ui.
-			// $args['publicly_queryable'] = true;
 		}
 		return $args;
 	}
@@ -435,39 +435,42 @@ class Setup {
 	 * @return array Modified array of sub-pages including the new GatherPress Theater sub-page.
 	 */
 	public function setup_sub_page( array $sub_pages ): array {
-		$current_sub_pages = $sub_pages['theater']['sections'] ?? array();
+		$current_sub_pages    = $sub_pages['theater']['sections'] ?? array();
 		$sub_pages['theater'] = array(
-			'name'     => __( 'Theater', 'gatherpress-seasons' ),
+			'name'     => __( 'Theater', 'gatherpress-productions' ),
 			'priority' => 10,
-			'sections' => array_merge( $current_sub_pages, array(
-				'production_urls' => array(
-					'name'        => __( 'Permalinks', 'gatherpress' ),
-					'description' => __( 'Change permalink bases.', 'gatherpress' ),
-					'options'     => array(
-						'productions_url' => array(
-							'labels' => array(
-								'name' => __( 'Productions', 'gatherpress-productions' ),
-							),
-							'field'  => array(
-								'type'    => 'text',
-								'rewrite' => true,
-								'options' => array(
-									'label'   => __( 'Permalink base of Productions.', 'gatherpress-productions' ),
-									'default' => $this->get_localized_post_type_slug(),
+			'sections' => array_merge(
+				$current_sub_pages,
+				array(
+					'production_urls' => array(
+						'name'        => __( 'Permalinks', 'gatherpress' ),
+						'description' => __( 'Change permalink bases.', 'gatherpress' ),
+						'options'     => array(
+							'productions_url' => array(
+								'labels' => array(
+									'name' => __( 'Productions', 'gatherpress-productions' ),
 								),
-								'preview' => array(
-									'template' => 'url-rewrite-preview',
-									'suffix'   => _x(
-										'sample-production',
-										'URL permalink structure example for productions',
-										'gatherpress-productions'
+								'field'  => array(
+									'type'    => 'text',
+									'rewrite' => true,
+									'options' => array(
+										'label'   => __( 'Permalink base of Productions.', 'gatherpress-productions' ),
+										'default' => $this->get_localized_post_type_slug(),
+									),
+									'preview' => array(
+										'template' => 'url-rewrite-preview',
+										'suffix'   => _x(
+											'sample-production',
+											'URL permalink structure example for productions',
+											'gatherpress-productions'
+										),
 									),
 								),
 							),
 						),
 					),
-				),
-			) ),
+				)
+			),
 		);
 
 		return $sub_pages;
@@ -481,8 +484,8 @@ class Setup {
 	 * @uses 'gatherpress_event_starter_patterns' filter
 	 * @see  https://github.com/GatherPress/gatherpress/blob/develop/docs/developer/hooks/gatherpress_event_starter_patterns.md
 	 *
-	 * @param  array $patterns
-	 * @param  array $post_types
+	 * @param  array $patterns   Pattern definitions loaded from the filesystem or registered natively.
+	 * @param  array $post_types Post type slugs declaring gatherpress-event-date.
 	 *
 	 * @return array
 	 */
