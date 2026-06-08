@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/carstingaxion/gatherpress-productions/compare/0.2.1...HEAD)
+## [Unreleased](https://github.com/carstingaxion/gatherpress-productions/compare/0.3.0...HEAD)
+
+## [0.3.0](https://github.com/carstingaxion/gatherpress-productions/compare/0.2.1...0.3.0) - 2026-06-08
+
+### 🚀 Added
+
+- Feature/register block var in js ([#11](https://github.com/carstingaxion/gatherpress-productions/pull/11))
+- Guard to only enqueue on the production edit screen. ([#8](https://github.com/carstingaxion/gatherpress-productions/pull/8))
+- Update the production-status term of the production, when its premier… ([#7](https://github.com/carstingaxion/gatherpress-productions/pull/7))
+- Use JS in favor over php registered block-variation ([#9](https://github.com/carstingaxion/gatherpress-productions/pull/9))
 
 ## [0.2.1](https://github.com/carstingaxion/gatherpress-productions/compare/0.2.0...0.2.1) - 2026-05-31
 
