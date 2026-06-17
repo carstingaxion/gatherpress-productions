@@ -73,8 +73,8 @@ class Taxonomies {
 			'query_var'          => true,
 			'rewrite'            => false,
 			'default_term'       => array(
-				'name' => 'Pre-Production',
-				'slug' => 'pre-production',
+				'name' => _x( 'Pre-Production', 'Default term for production status', 'gatherpress-productions' ),
+				'slug' => _x( 'pre-production', 'Default term for production status', 'gatherpress-productions' ),
 			),
 		);
 
