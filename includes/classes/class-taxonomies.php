@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace GatherPress_Productions;
 
 use GatherPress\Core;
-use GatherPress_Productions\Setup;
 
 /**
  * Main plugin class using Singleton pattern.
