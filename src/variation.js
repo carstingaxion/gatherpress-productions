@@ -18,7 +18,7 @@ domReady( () => {
 		title: singular,
 		description: sprintf(
 			/* translators: %s: Singular post type label, e.g. "Production". */
-			__( 'Provides %s context.', 'gatherpress' ),
+			__( 'Provides %s context.', 'gatherpress-productions' ),
 			singular
 		),
 		icon: 'art',
