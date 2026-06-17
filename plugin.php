@@ -61,6 +61,9 @@ function gatherpress_productions_setup(): void {
 }
 add_action( 'plugins_loaded', 'gatherpress_productions_setup' );
 
+
+
+
 // /**
 //  * Filters the labels of a specific post type.
 //  *
