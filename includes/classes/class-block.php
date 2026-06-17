@@ -58,8 +58,12 @@ class Block {
 			return;
 		}
 
-		/** @var mixed $asset */
-		$asset = include $asset_file;
+		/**
+		 * The asset file is expected to return an array with 'dependencies' and 'version' keys.
+		 *
+		 * @var array{dependencies: string[], version: string} $asset
+		 */
+		$asset = include $asset_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 
 		if ( ! is_array( $asset ) || ! isset( $asset['dependencies'], $asset['version'] ) ) {
 			return;
@@ -72,7 +76,6 @@ class Block {
 			return;
 		}
 
-		/** @var array{dependencies: string[], version: string} $asset */
 		wp_enqueue_script(
 			'gatherpress-productions-variation',
 			plugins_url( 'build/variation.js', dirname( __DIR__, 1 ) ),
