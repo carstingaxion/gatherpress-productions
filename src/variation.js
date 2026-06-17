@@ -2,11 +2,11 @@
  * WordPress dependencies.
  */
 import { registerBlockVariation } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 
 domReady( () => {
-	const { singular, plural } = window.gatherpressProductions;
+	const { singular } = window.gatherpressProductions;
 
 	/**
 	 * Extend 'gatherpress/venue' to provide production context.
@@ -32,19 +32,17 @@ domReady( () => {
 				'core/post-title',
 				{
 					level: 3,
-					isLink: true
-				}
+					isLink: true,
+				},
 			],
 			[
 				'core/post-featured-image',
 				{
-					isLink: true
-				}
+					isLink: true,
+				},
 			],
 		],
 		scope: [ 'inserter', 'block' ], // Defaults to 'block' and 'inserter'.
-		example: {} // Disabled like the original 'core/post-terms' block.
+		example: {}, // Disabled like the original 'core/post-terms' block.
 	} );
 } );
-
-

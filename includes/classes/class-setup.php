@@ -296,7 +296,7 @@ class Setup {
 				'show_in_rest' => true, // This in combination with  'supports' => array('editor') enables the Gutenberg editor.
 				'hierarchical' => true, // (Note from Subsites plugin: Important for rewriting to work with 'parent' PT.)
 				'description'  => '',
-				'menu_icon'   => 'dashicons-art',
+				'menu_icon'    => 'dashicons-art',
 
 				'rewrite'      => [
 					'slug'       => $rewrite_slug,
@@ -436,5 +436,4 @@ class Setup {
 
 		return $sub_pages;
 	}
-
 }

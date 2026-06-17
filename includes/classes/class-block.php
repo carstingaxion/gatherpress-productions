@@ -65,7 +65,7 @@ class Block {
 			return;
 		}
 
-		$post_type     = Setup::get_instance()::POST_TYPE_NAME;
+		$post_type     = Setup::POST_TYPE_NAME;
 		$post_type_obj = get_post_type_object( $post_type );
 
 		if ( ! $post_type_obj ) {
@@ -128,7 +128,7 @@ class Block {
 	 */
 	public function register_starter_patterns_natively(): void {
 
-		$post_type = Setup::get_instance()::POST_TYPE_NAME;
+		$post_type = Setup::POST_TYPE_NAME;
 		$pattern   = array(
 			'name'        => 'gatherpress-productions/starter',
 			'title'       => __( 'Productions Starter', 'gatherpress-productions' ),

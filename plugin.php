@@ -65,17 +65,14 @@ add_action( 'plugins_loaded', 'gatherpress_productions_setup' );
 
 
 // /**
-//  * Filters the labels of a specific post type.
-//  *
-//  * @param object $labels Object with labels for the post type as member variables.
-//  * @return object Object with labels for the post type as member variables.
-//  */
+// * Filters the labels of a specific post type.
+// *
+// * @param object $labels Object with labels for the post type as member variables.
+// * @return object Object with labels for the post type as member variables.
+// */
 // add_filter('post_type_labels_gatherpress_play',function ( object $labels ) : object {
-// 	$labels->name = "Stuecke";
-// 	$labels->singular_name = "Stueck";
+// $labels->name = "Stuecke";
+// $labels->singular_name = "Stueck";
 
-// 	return $labels;
+// return $labels;
 // } );
-
-
-
