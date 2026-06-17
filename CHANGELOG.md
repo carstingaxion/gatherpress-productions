@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/carstingaxion/gatherpress-productions/compare/0.3.0...HEAD)
+## [Unreleased](https://github.com/carstingaxion/gatherpress-productions/compare/0.3.1...HEAD)
+
+## [0.3.1](https://github.com/carstingaxion/gatherpress-productions/compare/0.3.0...0.3.1) - 2026-06-17
+
+- Use the registered post type singular label as the block variation name ([#13](https://github.com/carstingaxion/gatherpress-productions/pull/13))
+- updated de_DE translations
+
+### Dependency Updates & Maintenance
+
+- Update deps ([#14](https://github.com/carstingaxion/gatherpress-productions/pull/14))
 
 ## [0.3.0](https://github.com/carstingaxion/gatherpress-productions/compare/0.2.1...0.3.0) - 2026-06-08
 
