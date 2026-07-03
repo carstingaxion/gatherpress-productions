@@ -41,15 +41,11 @@
     {
       "step": "installPlugin",
       "pluginData": {
-        "resource": "git:directory",
-        "url": "https://github.com/carstingaxion/gatherpress-productions",
-        "ref": "HEAD"
+          "resource": "url",
+          "url": "https://github.com/carstingaxion/gatherpress-productions/releases/latest/download/gatherpress-productions.zip"
       },
       "options": {
-        "activate": true
-      },
-      "progress": {
-        "caption": "Installing plugin from GitHub: carstingaxion/gatherpress-productions"
+          "activate": true
       }
     },
     {
