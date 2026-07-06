@@ -3,7 +3,7 @@
  * Plugin Name:       GatherPress Productions
  * Plugin URI:        https://github.com/carstingaxion/gatherpress-productions
  * Description:       GatherPress Productions extends GatherPress for theater and performing-arts use cases.
- * Version:           0.3.1
+ * Version:           0.3.2
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Requires plugins:  gatherpress
