@@ -1,6 +1,6 @@
 {
     "name": "carstingaxion/gatherpress-productions",
-    "description": "",
+    "description": "GatherPress Productions extends GatherPress for theater and performing-arts use cases.",
     "license": "GPL-2.0+",
     "type": "wordpress-plugin",
     "keywords": [
