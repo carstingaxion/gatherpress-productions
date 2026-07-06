@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: GatherPress Productions 0.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gatherpress-"
 "productions\n"
-"POT-Creation-Date: 2026-06-17T14:22:40+02:00\n"
-"PO-Revision-Date: 2026-06-17 14:55+0200\n"
+"POT-Creation-Date: 2026-07-06T12:06:15+02:00\n"
+"PO-Revision-Date: 2026-07-06 12:07+0200\n"
 "Last-Translator: Carsten Bach\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -52,42 +52,62 @@ msgid "Production"
 msgstr "Produktion"
 
 #. translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions".
+#: includes/classes/class-setup.php:155
+#, php-format
 msgid "Popular %s"
 msgstr "Beliebte %s"
 
 #. translators: %s is replaced with the singular name of the taxonomy, e.g. "Production".
+#: includes/classes/class-setup.php:160
+#, php-format
 msgid "Edit %s"
 msgstr "%s bearbeiten"
 
 #. translators: %s is replaced with the singular name of the taxonomy, e.g. "Production".
+#: includes/classes/class-setup.php:165
+#, php-format
 msgid "Update %s"
 msgstr "%s aktualisieren"
 
 #. translators: %s is replaced with the singular name of the taxonomy, e.g. "Production".
+#: includes/classes/class-setup.php:170
+#, php-format
 msgid "Add New %s"
 msgstr "Neue %s hinzufügen"
 
 #. translators: %s is replaced with the singular name of the taxonomy, e.g. "Production".
+#: includes/classes/class-setup.php:175
+#, php-format
 msgid "New %s Name"
 msgstr "Neuer Name für %s"
 
 #. translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions".
+#: includes/classes/class-setup.php:180
+#, php-format
 msgid "Separate %s with commas"
 msgstr "%s durch Kommas trennen"
 
 #. translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions".
+#: includes/classes/class-setup.php:185
+#, php-format
 msgid "Add or remove %s"
 msgstr "%s hinzufügen oder entfernen"
 
 #. translators: %s is replaced with the plural name of the taxonomy, e.g. "Productions".
+#: includes/classes/class-setup.php:190
+#, php-format
 msgid "Choose from the most used %s"
 msgstr "Aus den am häufigsten verwendeten %s wählen"
 
 #. translators: %s is replaced with the singular name of the taxonomy, e.g. "Production".
+#: includes/classes/class-setup.php:195
+#, php-format
 msgid "Parent %s"
 msgstr "Übergeordnete %s"
 
 #. translators: %s is replaced with the singular name of the taxonomy, e.g. "Production".
+#: includes/classes/class-setup.php:200
+#, php-format
 msgid "Parent %s:"
 msgstr "Übergeordnete %s:"
 
@@ -275,11 +295,13 @@ msgstr "Name des neuen Produktionsstatus"
 msgid "Production Status"
 msgstr "Produktionsstatus"
 
+#: includes/classes/class-taxonomies.php:76
 #: includes/classes/class-taxonomies.php:94
 msgctxt "Default term for production status"
 msgid "Pre-Production"
 msgstr "Vorproduktion"
 
+#: includes/classes/class-taxonomies.php:77
 #: includes/classes/class-taxonomies.php:94
 msgctxt "Default term for production status"
 msgid "pre-production"
@@ -301,6 +323,7 @@ msgid "Running"
 msgstr "Laufend"
 
 #: includes/classes/class-taxonomies.php:96
+#: includes/classes/class-taxonomies.php:136
 msgctxt "Default term for production status"
 msgid "running"
 msgstr "laufend"
