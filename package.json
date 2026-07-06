@@ -1,7 +1,7 @@
 {
     "name": "gatherpress-productions",
     "version": "0.3.2",
-    "description": "GatherPress Productions extends GatherPress for theater and performing-arts use cases.",
+    "description": "Adds a Production post type to GatherPress with premiere date, production status lifecycle and relation to events.",
     "author": "carstenbach",
     "license": "GPL-2.0-or-later",
     "keywords": [
