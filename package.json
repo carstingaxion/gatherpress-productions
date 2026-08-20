@@ -19,6 +19,10 @@
     },
     "main": "build/index.js",
     "devDependencies": {
+        "@wordpress/blocks": "^15.26.0",
+        "@wordpress/dom-ready": "^4.53.0",
+        "@wordpress/hooks": "^4.53.0",
+        "@wordpress/i18n": "^6.26.0",
         "@wordpress/scripts": "^32.6.0"
     },
     "scripts": {
