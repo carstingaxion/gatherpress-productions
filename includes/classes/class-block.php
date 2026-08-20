@@ -88,7 +88,7 @@ class Block {
 			'gatherpressProductions',
 			array(
 				'singular' => $post_type_obj->labels->singular_name,
-				'plural'   => $post_type_obj->name,
+				'plural'   => $post_type_obj->labels->name,
 			)
 		);
 		wp_set_script_translations(
