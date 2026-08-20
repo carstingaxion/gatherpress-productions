@@ -1,6 +1,6 @@
 {
     "name": "gatherpress-productions",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Adds a Production post type to GatherPress with premiere date, production status lifecycle and relation to events.",
     "author": "carstenbach",
     "license": "GPL-2.0-or-later",

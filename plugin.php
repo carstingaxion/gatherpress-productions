@@ -3,7 +3,7 @@
  * Plugin Name:       GatherPress Productions
  * Plugin URI:        https://github.com/carstingaxion/gatherpress-productions
  * Description:       Adds a Production post type to GatherPress with premiere date, production status lifecycle and relation to events.
- * Version:           0.3.2
+ * Version:           0.3.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Requires plugins:  gatherpress
